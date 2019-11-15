@@ -8,4 +8,6 @@
     </author>
     <content src="index.html" />
     <preference name="debug" value="true"/>
+    <permission name="camera" />
+    <permission name="record" />
 </widget>

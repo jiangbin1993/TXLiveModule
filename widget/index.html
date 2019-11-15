@@ -64,13 +64,13 @@
 <script>
     
     function pull() {
-        var puller = api.require("JonasModule");
+        var puller = api.require("TXLivePuller");
         puller.pull();
     }
     
     function push() {
-        var pusher = api.require("ModuleDemo");
-        pusher.beginPush();
+        var pusher = api.require("TXLivePusher");
+        pusher.push();
     }
 
     
@@ -78,7 +78,6 @@
 function apiready() {
     var header = document.getElementById('header');
     header.style.paddingTop = api.safeArea.top + 'px';
-    
     api.removeLaunchView();
 }
 </script>
