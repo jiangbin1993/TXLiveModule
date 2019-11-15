@@ -64,40 +64,21 @@
 <script>
     
     function pull() {
-        var puller = api.require("puller");
+        var puller = api.require("JonasModule");
         puller.pull();
     }
     
     function push() {
-        var pusher = api.require("pusher");
-        pusher.printHello({"name":"jonas","age":"10", "frameName":api.frameName});
-<!--        pusher.jsSentData({-->
-<!--        key:"js传过来的值"-->
-<!--        });-->
-<!--        pusher.canBack(function(ret, err) {-->
-<!--            document.getElementById("txt").innerText = ret.msg;-->
-<!--        });-->
-        
-<!--        pusher.sentMessageToJs();-->
-<!--        pusher.pushToNewController();-->
+        var pusher = api.require("ModuleDemo");
+        pusher.beginPush();
     }
 
-function nativeMessage(param) {
-    document.getElementById("txt").innerText = param.msg;
-}
     
 
 function apiready() {
     var header = document.getElementById('header');
     header.style.paddingTop = api.safeArea.top + 'px';
     
-    api.addEventListener({
-                         name:'nativeEvent'
-                         }, function (ret, err) {
-                         if(ret) {
-                         alert(JSON.stringify(ret));
-                         }
-                         });
     api.removeLaunchView();
 }
 </script>
