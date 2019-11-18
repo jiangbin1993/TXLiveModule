@@ -94,7 +94,9 @@
                 <a class="button" tapmode="active" onclick="pausePush()">暂停推流</a>
                 <a class="button" tapmode="active" onclick="resumePush()">恢复推流</a>
                 <a class="button" tapmode="active" onclick="stopPush()">停止推流</a>
-                <a class="button" tapmode="active" onclick="pull()">拉流测试</a>
+                
+                <a class="button" tapmode="active" onclick="initPuller()">拉流初始化</a>
+                <a class="button" tapmode="active" onclick="startPull()">开始拉流</a>
                 
                 <p id="txt"> </p>
                 <input type="range" min="0" max="9" value="5" onChange="beautySliderChange(value)"/>
@@ -221,9 +223,14 @@
         pusher.configFilter({"filterType":filterType, "rate":rate});
     }
     
-    function pull() {
+    function initPuller () {
         var puller = api.require("TXLivePuller");
-        puller.pull();
+        puller.initPuller({"rect":{"x":0,"y":0,"w":140,"h":200}, "fixedOn":"","fixed":true});
+    }
+    
+    function startPull() {
+        var puller = api.require("TXLivePuller");
+        puller.startPull({"url":"http://t3c.tianli.shop/live/450.flv"});
     }
     
     function apiready() {
