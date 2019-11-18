@@ -1,84 +1,236 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>Module Develop</title>
-<meta charset="utf-8">
-<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
-<style type="text/css">
-	html,body{
-		height: 100%
-	}
-	body{
-		background-color: #fff;
-	    margin: 0;
-	}
-	#wrap{
-	    height: 100%;
-	    position: relative;
-	}
-	#header{
-		background-color: #5082c2;
-		height: 44px;
-	    position: relative;
-	}
-	#header h1{
-	    font-size: 20px; 
-	    height: 44px; 
-	    line-height: 44px; 
-	    margin: 0em; 
-	    color: #fff;
-		margin-left: 100px;
-		margin-right: 100px;
-		text-align: center;
-	}
-    #main{
-        display: block;
-    }
-    a.button{
-        display: -webkit-box;
-        -webkit-box-pack: center;
-        -webkit-box-align: center;
-        height: 36px;
-        margin: 8px;
-        background-color: rgba(240,240,240,1.0);
-        border-color: rgba(220,220,220,1.0);
-        border-width: 2px;
-        border-style: solid;
-	}
-    a.active{
-        background-color: rgba(240,240,240,0.6);
-	}
-</style>
-</head>
-<body>
-	<div id="wrap">
-	    <header id="header">
-	    	<h1 id="title">模块开发</h1>
-	    </header>
-	    <div id="main">
-            <a class="button" tapmode="active" onclick="push()">推流测试</a>
-            <a class="button" tapmode="active" onclick="pull()">拉流测试</a>
+    <head>
+        <title>Module Develop</title>
+        <meta charset="utf-8">
+            <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+            <style type="text/css">
+                html,body{
+                    height: 100%
+                }
+            body{
+                background-color: #fff;
+                margin: 0;
+            }
+            #wrap{
+                height: 100%;
+                position: relative;
+            }
+            #header{
+                background-color: #5082c2;
+                height: 44px;
+                position: relative;
+            }
+            #header h1{
+                font-size: 20px;
+                height: 44px;
+                line-height: 44px;
+                margin: 0em;
+                color: #fff;
+                margin-left: 100px;
+                margin-right: 100px;
+                text-align: center;
+            }
+            #main{
+                display: block;
+            }
+            a.button{
+                display: -webkit-box;
+                -webkit-box-pack: center;
+                -webkit-box-align: center;
+                height: 36px;
+                margin: 8px;
+                background-color: rgba(240,240,240,1.0);
+                border-color: rgba(220,220,220,1.0);
+                border-width: 2px;
+                border-style: solid;
+            }
+            a.active{
+                background-color: rgba(240,240,240,0.6);
+            }
+            
+            ul {
+                padding-left:0px;
+                display:block;
+                margin: 8px;
+                height: 36px;
+                overflow-x: auto;
+                white-space:nowrap;
+                clear:both;
+            }
+            
+            li {
+                background-color: rgba(240,240,240,1.0);
+                border-color: rgba(220,220,220,1.0);
+                list-style: none;
+                display:inline-block;
+                margin-left: 10px;
+                height: 36px;
+                line-height: 36px;
+                border-width: 2px;
+                border-style: solid;
+            }
+            
+            input {
+                display:block;
+                height: 20px;
+                width: 80%;
+                margin:20px auto;
+            }
+            </style>
+            </head>
+    <body>
+        <div id="wrap">
+            <header id="header">
+                <h1 id="title">模块开发</h1>
+            </header>
+            <div id="main">
+                <a class="button" tapmode="active" onclick="initPusher()">推流初始化</a>
+                <a class="button" tapmode="active" onclick="startPreview()">推流预览</a>
+                <a class="button" tapmode="active" onclick="startPush()">开始推流</a>
+                <a class="button" tapmode="active" onclick="switchCamera()">切换摄像头</a>
+                <a class="button" tapmode="active" onclick="enableMute()">静音/不静音</a>
+                <a class="button" tapmode="active" onclick="stopPreview()">停止预览</a>
+                <a class="button" tapmode="active" onclick="pausePush()">暂停推流</a>
+                <a class="button" tapmode="active" onclick="resumePush()">恢复推流</a>
+                <a class="button" tapmode="active" onclick="stopPush()">停止推流</a>
+                <a class="button" tapmode="active" onclick="pull()">拉流测试</a>
+                
+                <p id="txt"> </p>
+                <input type="range" min="0" max="9" value="5" onChange="beautySliderChange(value)"/>
+                
+                <ul id="beauty">
+                    <li onclick="closeBeauty()">无美颜</li>
+                    <li onclick="configBeauty(0,0)">美颜（光滑）</li>
+                    <li onclick="configBeauty(0,1)">美颜（自然）</li>
+                    <li onclick="configBeauty(1,0)">美白</li>
+                    <li onclick="configBeauty(2,0)">红润</li>
+                </ul>
+                
+                <input type="range" min="0" max="100" value="50" onChange="filterSliderChange(value)"/>
+                
+                <ul id="filter">
+                    <li onclick="configFilter(0)">无滤镜</li>
+                    <li onclick="configFilter(1)">滤镜1</li>
+                    <li onclick="configFilter(2)">滤镜2</li>
+                    <li onclick="configFilter(3)">滤镜3</li>
+                    <li onclick="configFilter(4)">滤镜4</li>
+                    <li onclick="configFilter(5)">滤镜5</li>
+                    <li onclick="configFilter(6)">滤镜6</li>
+                    <li onclick="configFilter(7)">滤镜7</li>
+                    <li onclick="configFilter(8)">滤镜8</li>
+                    <li onclick="configFilter(9)">滤镜9</li>
+                    <li onclick="configFilter(10)">滤镜10</li>
+                    <li onclick="configFilter(11)">滤镜11</li>
+                    <li onclick="configFilter(12)">滤镜12</li>
+                    <li onclick="configFilter(13)">滤镜13</li>
+                    <li onclick="configFilter(14)">滤镜14</li>
+                    <li onclick="configFilter(15)">滤镜15</li>
+                    <li onclick="configFilter(16)">滤镜16</li>
+                    <li onclick="configFilter(17)">滤镜17</li>
+                </ul>
+                
+                
+                
+            </div>
         </div>
-    </div>
-</body>
-<script>
+    </body>
+    <script>
+        
+        var level = 0;
+        var rate = 0;
+        var mute = false;
+        var filterType = 0;
+        
+        
+        function initPusher () {
+            var pusher = api.require("TXLivePusher");
+            pusher.initPusher({"resolution":"super","pauseImageUrl":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1573893432822&di=a7a6c5d632fc8e1938bf0ce6aaf6cca7&imgtype=0&src=http%3A%2F%2Fpic77.nipic.com%2Ffile%2F20150906%2F10262354_173615899356_2.jpg"}, function(ret) {
+                              alert(JSON.stringify(ret));
+                              });
+        }
+    
+    function startPreview() {
+        var pusher = api.require("TXLivePusher");
+        pusher.startPreview({"rect":{"x":"0","y":"0","w":"140","h":"200"},"fixed":true}, function(ret){
+                            alert(JSON.stringify(ret));
+                            });
+    }
+    
+    function startPush () {
+        var pusher = api.require("TXLivePusher");
+        pusher.startPush({"url":"rtmp://67392.livepush.myqcloud.com/live/450?txSecret=d3197d7c02081f270e76dc22b7d1406d&txTime=5DD385B3"}, function(ret) {
+                         alert(JSON.stringify(ret));
+                         });
+    }
+    
+    function pausePush () {
+        var pusher = api.require("TXLivePusher");
+        pusher.pausePush();
+    }
+    
+    function resumePush () {
+        var pusher = api.require("TXLivePusher");
+        pusher.resumePush();
+    }
+    
+    function stopPush () {
+        var pusher = api.require("TXLivePusher");
+        pusher.stopPush();
+    }
+    
+    function switchCamera () {
+        var pusher = api.require("TXLivePusher");
+        pusher.switchCamera();
+    }
+    
+    function enableMute () {
+        mute = !mute;
+        var pusher = api.require("TXLivePusher");
+        pusher.enableMute({"enableMute":mute});
+    }
+    
+    function stopPreview () {
+        var pusher = api.require("TXLivePusher");
+        pusher.stopPreview();
+    }
+    
+    function configFilter (i) {
+        filterType = i;
+        var pusher = api.require("TXLivePusher");
+        pusher.configFilter({"filterType":i, "rate":rate});
+    }
+    
+    function configBeauty (index, style) {
+        var pusher = api.require("TXLivePusher");
+        pusher.configBeauty({"beautyStyle":style, "beautyLevel":5, "whitenessLevel":5, "ruddinessLevel":5});
+    }
+    
+    function closeBeauty () {
+        var pusher = api.require("TXLivePusher");
+        pusher.closeBeauty();
+    }
+    
+    function beautySliderChange (value) {
+        level = value;
+    }
+    
+    function filterSliderChange (value) {
+        rate = value / 100.0;
+        var pusher = api.require("TXLivePusher");
+        pusher.configFilter({"filterType":filterType, "rate":rate});
+    }
     
     function pull() {
         var puller = api.require("TXLivePuller");
         puller.pull();
     }
     
-    function push() {
-        var pusher = api.require("TXLivePusher");
-        pusher.push();
+    function apiready() {
+        
+        var header = document.getElementById('header');
+        header.style.paddingTop = api.safeArea.top + 'px';
+        api.removeLaunchView();
     }
-
-    
-
-function apiready() {
-    var header = document.getElementById('header');
-    header.style.paddingTop = api.safeArea.top + 'px';
-    api.removeLaunchView();
-}
-</script>
+    </script>
 </html>
