@@ -97,6 +97,9 @@
                 
                 <a class="button" tapmode="active" onclick="initPuller()">拉流初始化</a>
                 <a class="button" tapmode="active" onclick="startPull()">开始拉流</a>
+                <a class="button" tapmode="active" onclick="resize()">修改拉流区域</a>
+                <a class="button" tapmode="active" onclick="stopPull()">停止拉流</a>
+                <a class="button" tapmode="active" onclick="destroyPuller()">销毁拉流器</a>
                 
                 <p id="txt"> </p>
                 <input type="range" min="0" max="9" value="5" onChange="beautySliderChange(value)"/>
@@ -225,7 +228,7 @@
     
     function initPuller () {
         var puller = api.require("TXLivePuller");
-        puller.initPuller({"rect":{"x":0,"y":0,"w":140,"h":200}, "fixedOn":"","fixed":true});
+        puller.initPuller({"rect":{"x":0,"y":0,"w":140,"h":200}, "fixedOn":"","fixed":true, "renderMode":1});
     }
     
     function startPull() {
@@ -233,11 +236,55 @@
         puller.startPull({"url":"http://t3c.tianli.shop/live/450.flv"});
     }
     
+    
+    function resize() {
+        var puller = api.require("TXLivePuller");
+        puller.resize({"rect":{"x":100,"y":80,"w":300,"h":500}, "animate":true, "duration": 0.8}, function(){
+        alert("动画完成");
+        });
+    }
+    
+    function stopPull() {
+        var puller = api.require("TXLivePuller");
+        puller.stopPull();
+    }
+    
+    function destroyPuller() {
+        var puller = api.require("TXLivePuller");
+        puller.destroyPuller();
+    }
+    
+    
     function apiready() {
         
         var header = document.getElementById('header');
         header.style.paddingTop = api.safeArea.top + 'px';
         api.removeLaunchView();
+        
+        api.addEventListener({
+        name:'TXLivePusherEvent'
+        }, function (ret, err) {
+        if(ret) {
+        alert(JSON.stringify(ret));
+        }
+        });
+        
+        api.addEventListener({
+        name:'TXLivePullerEvent'
+        }, function (ret, err) {
+        if(ret) {
+        alert(JSON.stringify(ret));
+        }
+        });
+        
+        var pusher = api.require("TXLivePusher");
+        pusher.setLicenseAndKey({"licenceURL":"https://license.vod2.myqcloud.com/license/v1/f3598d089c8a6dc3be60532e7363e098/TXLiveSDK.licence","licenceKey":"e82c9731b83fe358c853dcbe5e23601d"});
+        
+        var puller = api.require("TXLivePuller");
+        
+        puller.addVideoResolutionChangeListener(function(param){
+                                          alert(JSON.stringify(param));
+                                          });
     }
     </script>
 </html>
