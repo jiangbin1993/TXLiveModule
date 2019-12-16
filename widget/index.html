@@ -85,175 +85,50 @@
                 <h1 id="title">模块开发</h1>
             </header>
             <div id="main">
-                <a class="button" tapmode="active" onclick="initPusher()">推流初始化</a>
-                <a class="button" tapmode="active" onclick="startPreview()">推流预览</a>
-                <a class="button" tapmode="active" onclick="startPush()">开始推流</a>
-                <a class="button" tapmode="active" onclick="switchCamera()">切换摄像头</a>
-                <a class="button" tapmode="active" onclick="enableMute()">静音/不静音</a>
-                <a class="button" tapmode="active" onclick="stopPreview()">停止预览</a>
-                <a class="button" tapmode="active" onclick="pausePush()">暂停推流</a>
-                <a class="button" tapmode="active" onclick="resumePush()">恢复推流</a>
-                <a class="button" tapmode="active" onclick="stopPush()">停止推流</a>
-                
-                <a class="button" tapmode="active" onclick="initPuller()">拉流初始化</a>
-                <a class="button" tapmode="active" onclick="startPull()">开始拉流</a>
-                <a class="button" tapmode="active" onclick="resize()">修改拉流区域</a>
-                <a class="button" tapmode="active" onclick="stopPull()">停止拉流</a>
-                <a class="button" tapmode="active" onclick="destroyPuller()">销毁拉流器</a>
-                
-                <p id="txt"> </p>
-                <input type="range" min="0" max="9" value="5" onChange="beautySliderChange(value)"/>
-                
-                <ul id="beauty">
-                    <li onclick="closeBeauty()">无美颜</li>
-                    <li onclick="configBeauty(0,0)">美颜（光滑）</li>
-                    <li onclick="configBeauty(0,1)">美颜（自然）</li>
-                    <li onclick="configBeauty(1,0)">美白</li>
-                    <li onclick="configBeauty(2,0)">红润</li>
-                </ul>
-                
-                <input type="range" min="0" max="100" value="50" onChange="filterSliderChange(value)"/>
-                
-                <ul id="filter">
-                    <li onclick="configFilter(0)">无滤镜</li>
-                    <li onclick="configFilter(1)">滤镜1</li>
-                    <li onclick="configFilter(2)">滤镜2</li>
-                    <li onclick="configFilter(3)">滤镜3</li>
-                    <li onclick="configFilter(4)">滤镜4</li>
-                    <li onclick="configFilter(5)">滤镜5</li>
-                    <li onclick="configFilter(6)">滤镜6</li>
-                    <li onclick="configFilter(7)">滤镜7</li>
-                    <li onclick="configFilter(8)">滤镜8</li>
-                    <li onclick="configFilter(9)">滤镜9</li>
-                    <li onclick="configFilter(10)">滤镜10</li>
-                    <li onclick="configFilter(11)">滤镜11</li>
-                    <li onclick="configFilter(12)">滤镜12</li>
-                    <li onclick="configFilter(13)">滤镜13</li>
-                    <li onclick="configFilter(14)">滤镜14</li>
-                    <li onclick="configFilter(15)">滤镜15</li>
-                    <li onclick="configFilter(16)">滤镜16</li>
-                    <li onclick="configFilter(17)">滤镜17</li>
-                </ul>
-                
-                
-                
+                <a class="button" tapmode="active" onclick="enterRoom()">进入直播间</a>
+                <a class="button" tapmode="active" onclick="getMembers()">查询列表</a>
+                <a class="button" tapmode="active" onclick="kitout()">踢人</a>
+                <a class="button" tapmode="active" onclick="setManager()">设为管理员</a>
+                <a class="button" tapmode="active" onclick="setMute()">禁言</a>
+                <a class="button" tapmode="active" onclick="sendTipMessage()">发送提醒消息</a>
             </div>
         </div>
     </body>
     <script>
         
-        var level = 0;
-        var rate = 0;
-        var mute = false;
-        var filterType = 0;
-        
-        
-        function initPusher () {
-            var pusher = api.require("TXLivePusher");
-            pusher.initPusher({"resolution":"super","pauseImageUrl":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1573893432822&di=a7a6c5d632fc8e1938bf0ce6aaf6cca7&imgtype=0&src=http%3A%2F%2Fpic77.nipic.com%2Ffile%2F20150906%2F10262354_173615899356_2.jpg"}, function(ret) {
-                              alert(JSON.stringify(ret));
-                              });
-        }
-    
-    function startPreview() {
-        var pusher = api.require("TXLivePusher");
-        pusher.startPreview({"rect":{"x":"0","y":"0","w":"140","h":"200"},"fixed":true}, function(ret){
-                            alert(JSON.stringify(ret));
-                            });
-    }
-    
-    function startPush () {
-        var pusher = api.require("TXLivePusher");
-        pusher.startPush({"url":"rtmp://67392.livepush.myqcloud.com/live/450?txSecret=d3197d7c02081f270e76dc22b7d1406d&txTime=5DD385B3"}, function(ret) {
+        function enterRoom() {
+            var im = api.require("ChatRoom");
+            im.enterChatRoom({"roomId" : "137529613", "account" : "480", "name" : "jonas", "avatar":"https://www.baidu.com.ddefre.jpg", "token" : "085ebd786df641a0a3a62803be1d16cd"}, function(ret) {
                          alert(JSON.stringify(ret));
                          });
+        }
+    
+    function getMembers() {
+        var im = api.require("ChatRoom");
+        im.queryMembers({"type" : "0", "account" : "", "limit":"10"}, function(ret) {
+                     alert(JSON.stringify(ret));
+                     });
     }
     
-    function pausePush () {
-        var pusher = api.require("TXLivePusher");
-        pusher.pausePush();
+    function kitout() {
+        var im = api.require("ChatRoom");
+        im.kitout({"account" : "444"});
     }
     
-    function resumePush () {
-        var pusher = api.require("TXLivePusher");
-        pusher.resumePush();
+    function setManager() {
+        var im = api.require("ChatRoom");
+        im.setManager({"account" : "444", "set" : true});
     }
     
-    function stopPush () {
-        var pusher = api.require("TXLivePusher");
-        pusher.stopPush();
+    function setMute() {
+        var im = api.require("ChatRoom");
+        im.setMute({"account" : "444", "set" : false});
     }
     
-    function switchCamera () {
-        var pusher = api.require("TXLivePusher");
-        pusher.switchCamera();
+    function sendTipMessage() {
+        var im = api.require("ChatRoom");
+        im.sendTipMessage({"content" : "刷新货物"});
     }
-    
-    function enableMute () {
-        mute = !mute;
-        var pusher = api.require("TXLivePusher");
-        pusher.enableMute({"enableMute":mute});
-    }
-    
-    function stopPreview () {
-        var pusher = api.require("TXLivePusher");
-        pusher.stopPreview();
-    }
-    
-    function configFilter (i) {
-        filterType = i;
-        var pusher = api.require("TXLivePusher");
-        pusher.configFilter({"filterType":i, "rate":rate});
-    }
-    
-    function configBeauty (index, style) {
-        var pusher = api.require("TXLivePusher");
-        pusher.configBeauty({"beautyStyle":style, "beautyLevel":5, "whitenessLevel":5, "ruddinessLevel":5});
-    }
-    
-    function closeBeauty () {
-        var pusher = api.require("TXLivePusher");
-        pusher.closeBeauty();
-    }
-    
-    function beautySliderChange (value) {
-        level = value;
-    }
-    
-    function filterSliderChange (value) {
-        rate = value / 100.0;
-        var pusher = api.require("TXLivePusher");
-        pusher.configFilter({"filterType":filterType, "rate":rate});
-    }
-    
-    function initPuller () {
-        var puller = api.require("TXLivePuller");
-        puller.initPuller({"rect":{"x":0,"y":0,"w":140,"h":200}, "fixedOn":"","fixed":true, "renderMode":1});
-    }
-    
-    function startPull() {
-        var puller = api.require("TXLivePuller");
-        puller.startPull({"url":"http://t3c.tianli.shop/live/450.flv"});
-    }
-    
-    
-    function resize() {
-        var puller = api.require("TXLivePuller");
-        puller.resize({"rect":{"x":100,"y":80,"w":300,"h":500}, "animate":true, "duration": 0.8}, function(){
-        alert("动画完成");
-        });
-    }
-    
-    function stopPull() {
-        var puller = api.require("TXLivePuller");
-        puller.stopPull();
-    }
-    
-    function destroyPuller() {
-        var puller = api.require("TXLivePuller");
-        puller.destroyPuller();
-    }
-    
     
     function apiready() {
         
@@ -261,30 +136,11 @@
         header.style.paddingTop = api.safeArea.top + 'px';
         api.removeLaunchView();
         
-        api.addEventListener({
-        name:'TXLivePusherEvent'
-        }, function (ret, err) {
-        if(ret) {
-        alert(JSON.stringify(ret));
-        }
-        });
-        
-        api.addEventListener({
-        name:'TXLivePullerEvent'
-        }, function (ret, err) {
-        if(ret) {
-        alert(JSON.stringify(ret));
-        }
-        });
-        
-        var pusher = api.require("TXLivePusher");
-        pusher.setLicenseAndKey({"licenceURL":"https://license.vod2.myqcloud.com/license/v1/f3598d089c8a6dc3be60532e7363e098/TXLiveSDK.licence","licenceKey":"e82c9731b83fe358c853dcbe5e23601d"});
-        
-        var puller = api.require("TXLivePuller");
-        
-        puller.addVideoResolutionChangeListener(function(param){
-                                          alert(JSON.stringify(param));
-                                          });
+        var im = api.require("ChatRoom");
+        im.initSDK({"appKey":"0bbdc400de8594af85465090cffdf855", "appSecret":"231e008143fb"});
+        im.setMsgCallBack(function(ret){
+                          alert(JSON.stringify(ret));
+                          });
     }
     </script>
 </html>
