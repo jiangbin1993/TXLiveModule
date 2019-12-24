@@ -88,7 +88,7 @@
                 <a class="button" tapmode="active" onclick="initPusher()">推流初始化</a>
                 <a class="button" tapmode="active" onclick="startPreview()">推流预览</a>
                 <a class="button" tapmode="active" onclick="startPush()">开始推流</a>
-                <a class="button" tapmode="active" onclick="switchCamera()">切换摄像头</a>
+                <a class="button" tapmode="active" onclick="changeCamera()">切换摄像头</a>
                 <a class="button" tapmode="active" onclick="enableMute()">静音/不静音</a>
                 <a class="button" tapmode="active" onclick="stopPreview()">停止预览</a>
                 <a class="button" tapmode="active" onclick="pausePush()">暂停推流</a>
@@ -152,6 +152,8 @@
                 <a class="button" tapmode="active" onclick="resumeBGM()">恢复背景音乐</a>
                 <a class="button" tapmode="active" onclick="stopBGM()">停止背景音乐</a>
                 <a class="button" tapmode="active" onclick="setBGMVolume()">设置背景音乐音量</a>
+                <a class="button" tapmode="active" onclick="setReverbType()">设置混音</a>
+                <a class="button" tapmode="active" onclick="setVoiceChangerType()">变声</a>
                 <a class="button" tapmode="active" onclick="getVideoPathList()">获取视频片段列表</a>
                 <a class="button" tapmode="active" onclick="deleteLastPart()">删除最后一个片段</a>
                 <a class="button" tapmode="active" onclick="deletePart()">删除指定位置片段</a>
@@ -168,8 +170,9 @@
             api.removeLaunchView();
             
             var pusher = api.require("TXLivePusher");
-            pusher.setLicenseAndKey({"licenceURL":"https://license.vod2.myqcloud.com/license/v1/2e094f69b0ebcce552110966213f11c1/TXUgcSDK.licence","licenceKey":"aae5a44b1e8ae6ac46553c0fe6897e40"});
+            pusher.setLicenseAndKey({"licenceURL":"https://license.vod2.myqcloud.com/license/v1/2e094f69b0ebcce552110966213f11c1/TXLiveSDK.licence","licenceKey":"aae5a44b1e8ae6ac46553c0fe6897e40"});
             pusher.addPushEventListener(function(param){
+                                        alert(JSON.stringify(param));
                                         });
             
             var puller = api.require("TXLivePuller");
@@ -181,7 +184,7 @@
             var video = api.require("txLiteAV");
             video.setLicence({"licenceURL":"https://license.vod2.myqcloud.com/license/v1/2e094f69b0ebcce552110966213f11c1/TXUgcSDK.licence","licenceKey":"aae5a44b1e8ae6ac46553c0fe6897e40"});
             video.addRecordListener(function(ret){
-<!--                                    alert(JSON.stringify(ret));-->
+<!--                alert(JSON.stringify(ret));-->
             });
         }
         
@@ -210,7 +213,7 @@
     
     function startPush () {
         var pusher = api.require("TXLivePusher");
-        pusher.startPush({"url":"rtmp://67392.livepush.myqcloud.com/live/450?txSecret=e2caddfbb8c816e3ee6bca3f3edb05ac&txTime=5DDE3A6A"}, function(ret) {
+        pusher.startPush({"url":"rtmp://push.chaoniuhui.com/live/test?txSecret=d053d234cb487fc9841aac6cca237b4d&txTime=5E0235FF"}, function(ret) {
                          alert(JSON.stringify(ret));
                          });
     }
@@ -230,7 +233,7 @@
         pusher.stopPush();
     }
     
-    function switchCamera () {
+    function changeCamera () {
         var pusher = api.require("TXLivePusher");
         pusher.switchCamera();
     }
@@ -306,7 +309,7 @@
     
     function startCameraPreview() {
         var video = api.require("txLiteAV");
-        video.startCameraPreview({"rect" : {"x":0,"y":0,"w":140,"h":200}, "videoResolution" : 3, "videoFPS" : 25, "frontCamera" : true, "minDuration" : 2, "maxDuration" : 60}, function(ret) {
+        video.startCameraPreview({"rect" : {"x":0,"y":0,"w":140,"h":200}, "videoResolution" : 3, "videoFPS" : 25, "frontCamera" : true, "minDuration" : 2, "maxDuration" : 60, audioSampleRate : 4}, function(ret) {
                                  alert(JSON.stringify(ret));
                                  });
     }
@@ -382,8 +385,8 @@
     
     function playBGM () {
         var video = api.require("txLiteAV");
-        video.playBGM({startTime : 3, endTime : 10}, function(ret) {
-        alert(JSON.stringify(ret));
+        video.playBGM({startTime : 3, endTime : 100}, function(ret) {
+<!--        alert(JSON.stringify(ret));-->
         });
     }
     
@@ -413,6 +416,16 @@
         video.setBGMVolume({volume : 1.6}, function(ret) {
         alert(JSON.stringify(ret));
         });
+    }
+    
+    function setReverbType() {
+        var video = api.require("txLiteAV");
+        video.setReverbType({reverbType:1});
+    }
+    
+    function setVoiceChangerType() {
+        var video = api.require("txLiteAV");
+        video.setVoiceChangerType({voiceChangerType:2});
     }
     
     function getVideoPathList () {
