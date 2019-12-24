@@ -171,9 +171,7 @@
             
             var pusher = api.require("TXLivePusher");
             pusher.setLicenseAndKey({"licenceURL":"https://license.vod2.myqcloud.com/license/v1/2e094f69b0ebcce552110966213f11c1/TXLiveSDK.licence","licenceKey":"aae5a44b1e8ae6ac46553c0fe6897e40"});
-            pusher.addPushEventListener(function(param){
-                                        alert(JSON.stringify(param));
-                                        });
+            
             
             var puller = api.require("TXLivePuller");
             
@@ -202,6 +200,9 @@
             pusher.initPusher({"resolution":"super","pauseImageUrl":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1573893432822&di=a7a6c5d632fc8e1938bf0ce6aaf6cca7&imgtype=0&src=http%3A%2F%2Fpic77.nipic.com%2Ffile%2F20150906%2F10262354_173615899356_2.jpg"}, function(ret) {
                               alert(JSON.stringify(ret));
                               });
+            pusher.addPushEventListener(function(param){
+                                        alert(JSON.stringify(param));
+                                        });
         }
     
     function startPreview() {
